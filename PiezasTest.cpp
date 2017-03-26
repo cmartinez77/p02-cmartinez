@@ -14,6 +14,16 @@ class PiezasTest : public ::testing::Test
 		virtual void TearDown(){} //clean up after each test, (before destructor) 
 };
 
+/*Constructor test*/
+TEST(PiezasTest, initialTurn)
+{
+  Piezas game;
+  Piece expected=Blank;
+	ASSERT_EQ(expected, game.pieceAt(0,0));
+}
+
+/*Get Piece tests*/
+
 TEST(PiezasTest, sanityCheck)
 {
 	ASSERT_TRUE(true);

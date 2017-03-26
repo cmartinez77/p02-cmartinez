@@ -33,6 +33,7 @@ class Piezas
   	std::vector < std::vector<Piece> > board;
   	Piece turn;
 
+
   public:
   	/**
      * Constructor sets an empty board (3 rows, 4 columns) and 
