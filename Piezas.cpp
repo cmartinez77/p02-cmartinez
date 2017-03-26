@@ -24,10 +24,11 @@ using namespace std;
 
 Piezas::Piezas()
 {
-  board.push_back( vector<Piece>(BOARD_COLS,Blank) );
-  board.push_back( vector<Piece>(BOARD_COLS,Blank) );
-  board.push_back( vector<Piece>(BOARD_COLS,Blank) );
   //board(BOARD_ROWS, vector<Piece>(BOARD_COLS,Blank));
+  for(int i =0; i < BOARD_ROWS; i++)
+  {
+    board.push_back( vector<Piece>(BOARD_COLS,Blank) );
+  }
   turn = X;
 }
 
@@ -37,6 +38,13 @@ Piezas::Piezas()
  **/
 void Piezas::reset()
 {
+  for(int i=0; i<BOARD_ROWS; i++)
+  {
+    for(int j=0; j<BOARD_COLS; j++)
+    {
+      board[i][j]=Blank;
+    }
+  }
 }
 
 /**
@@ -49,7 +57,36 @@ void Piezas::reset()
  **/ 
 Piece Piezas::dropPiece(int column)
 {
-  return Invalid;
+  /*error checking*/
+  if(column < 0 || column >= BOARD_COLS)
+  {
+    toggleTurn();
+    return  Invalid;
+  }
+  int empty = -1;
+
+  /*find empty slot*/
+  for(int i =BOARD_ROWS-1; i >= 0; i--)
+  {
+    if(pieceAt(i,column) == Blank)
+    {
+      empty = i;
+    }
+  }
+
+  /*if no empty spot is found, return Blank*/
+  if(empty == -1)
+  {
+    return Blank;
+  }
+
+  /*drop piece*/
+  board[empty][column] = turn;
+
+  /*toggle turn and return old turn*/
+  Piece old_turn = turn;
+  toggleTurn();
+  return old_turn;
 }
 
 /**
@@ -81,5 +118,110 @@ Piece Piezas::pieceAt(int row, int column)
  **/
 Piece Piezas::gameState()
 {
+  /*check if game is over*/
+  for(int i=0; i < BOARD_COLS; i++)
+  {
+    if(board[0][i] == Blank)
+    {
+      return Invalid;
+    }
+  }
+
+  int o_current_count=1;
+  int o_highest=1;
+
+  int x_current_count=1;
+  int x_highest=1;
+
+  /*check rows*/
+  for(int i=0; i<BOARD_ROWS; i++)
+  {
+    for(int j=0; j<BOARD_COLS-1; j++)
+    {
+      if((board[i][j]==O) && (board[i][j+1]==O))
+        o_current_count++;
+      else
+      {
+        if(o_current_count > o_highest)
+          o_highest = o_current_count;
+        o_current_count =1;
+      }
+
+      if((board[i][j]==X) && (board[i][j+1]==X))
+        x_current_count++;
+      else
+      {
+        if(x_current_count > x_highest)
+          x_highest = x_current_count;
+        x_current_count =1;
+      }
+    }
+    if(o_current_count > o_highest)
+      o_highest = o_current_count;
+    o_current_count =1;
+
+    if(x_current_count > x_highest)
+      x_highest = x_current_count;
+    x_current_count =1;
+  }
+
+  /*check column*/
+  for(int i=0; i<BOARD_COLS; i++)
+  {
+    for(int j=0; j<BOARD_ROWS-1; j++)
+    {
+
+      if((board[j][i]==O) && (board[j+1][i]==O))
+        o_current_count++;
+      else
+      {
+        if(o_current_count > o_highest)
+          o_highest = o_current_count;
+        o_current_count =1;
+      }
+
+      if((board[j][i]==X) && (board[j+1][i]==X))
+        x_current_count++;
+      else
+      {
+        if(x_current_count > x_highest)
+          x_highest = x_current_count;
+        x_current_count =1;
+      }
+      
+
+    }
+    if(o_current_count > o_highest)
+      o_highest = o_current_count;
+    o_current_count =1;
+
+    if(x_current_count > x_highest)
+      x_highest = x_current_count;
+    x_current_count =1;
+  }
+
+  if(x_highest > o_highest)
+    return X;
+  else if(x_highest < o_highest)
+    return O;
+  else
+    return Blank;
+
+
   return Invalid;
+
+}
+
+
+/*Helper function*/
+void Piezas::toggleTurn()
+{
+  if(turn == X)
+  {
+    turn = O;
+  }
+  else
+  {
+    turn = X;
+  }
 }

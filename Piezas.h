@@ -33,6 +33,8 @@ class Piezas
   	std::vector < std::vector<Piece> > board;
   	Piece turn;
 
+    /*helper functions*/
+    void toggleTurn();
 
   public:
   	/**
