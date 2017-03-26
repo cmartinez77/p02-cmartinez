@@ -58,6 +58,15 @@ Piece Piezas::dropPiece(int column)
  **/
 Piece Piezas::pieceAt(int row, int column)
 {
+  int row_index = (BOARD_ROWS-1) - row;
+  if(row_index < 0 || row_index >= BOARD_ROWS)
+  {
+    return Invalid;
+  }
+  if(column < 0 || column >= BOARD_COLS)
+  {
+    return Invalid;
+  }
   return board[row][column];
 }
 

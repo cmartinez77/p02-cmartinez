@@ -22,8 +22,58 @@ TEST(PiezasTest, initialTurn)
 	ASSERT_EQ(expected, game.pieceAt(0,0));
 }
 
-/*Get Piece tests*/
 
+/*Get Piece tests*/
+TEST(PiezasTest, getPieceLowerBoundBorder1)
+{
+  Piezas game;
+  Piece expected=Invalid;
+	ASSERT_EQ(expected, game.pieceAt(-1,-1));
+}
+
+TEST(PiezasTest, getPieceLowerBoundBorder2)
+{
+  Piezas game;
+  Piece expected=Invalid;
+	ASSERT_EQ(expected, game.pieceAt(0,-1));
+}
+
+TEST(PiezasTest, getPieceLowerBoundBorder3)
+{
+  Piezas game;
+  Piece expected=Invalid;
+	ASSERT_EQ(expected, game.pieceAt(-1,0));
+}
+
+TEST(PiezasTest, getPieceUpperBoundBorder1)
+{
+  Piezas game;
+  Piece expected=Invalid;
+	ASSERT_EQ(expected, game.pieceAt(3,4));
+}
+
+TEST(PiezasTest, getPieceUpperBoundBorder2)
+{
+  Piezas game;
+  Piece expected=Invalid;
+	ASSERT_EQ(expected, game.pieceAt(0,4));
+}
+
+TEST(PiezasTest, getPieceUpperBoundBorder3)
+{
+  Piezas game;
+  Piece expected=Invalid;
+	ASSERT_EQ(expected, game.pieceAt(3,0));
+}
+
+TEST(PiezasTest, getPieceCorrect)
+{
+  Piezas game;
+  Piece expected=Blank;
+	ASSERT_EQ(expected, game.pieceAt(0,0));
+}
+
+/*Sanity Check*/
 TEST(PiezasTest, sanityCheck)
 {
 	ASSERT_TRUE(true);
